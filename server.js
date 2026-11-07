@@ -4,7 +4,7 @@ const path = require('path');
 const zlib = require('zlib');
 const { pipeline } = require('stream');
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5173;
 
 // Support multiple root candidates for local, container, and cloud serverless (Vercel/AWS)
 const candidateRoots = [
