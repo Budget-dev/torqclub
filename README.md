@@ -14,7 +14,6 @@ Official website for **TORQ CLUB**, located in Kukatpally, Hyderabad.
   - Heavy-duty Jerai Fitness strength equipment
   - Indoor turf track for sled pushes and functional training
   - Certified coaches & Winter Arc transformation programs
-  - Special Pre-Sale Founding Member offers
 
 ## Tech Stack & Features
 - Modern high-performance responsive web architecture
