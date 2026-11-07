@@ -34,7 +34,17 @@ const memoryCache = new Map();
 const MAX_CACHE_SIZE = 100 * 1024; // 100 KB max per file
 
 const server = http.createServer((req, res) => {
-  const cleanUrl = req.url.split('?')[0].split('#')[0];
+  let cleanUrl = req.url.split('?')[0].split('#')[0];
+  // Support /torqclub subpath for testing GitHub Pages locally
+  if (cleanUrl === '/torqclub') {
+    res.writeHead(301, { 'Location': '/torqclub/' });
+    res.end();
+    return;
+  }
+  if (cleanUrl.startsWith('/torqclub/')) {
+    cleanUrl = cleanUrl.slice('/torqclub'.length);
+    if (!cleanUrl) cleanUrl = '/';
+  }
   let filePath = path.join(ROOT, cleanUrl === '/' ? 'index.html' : cleanUrl);
 
   // If directory, serve directory/index.html
