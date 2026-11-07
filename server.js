@@ -5,7 +5,14 @@ const zlib = require('zlib');
 const { pipeline } = require('stream');
 
 const PORT = process.env.PORT || 3000;
-const ROOT = __dirname;
+
+// Support multiple root candidates for local, container, and cloud serverless (Vercel/AWS)
+const candidateRoots = [
+  process.cwd(),
+  __dirname,
+  path.join(__dirname, 'public'),
+  path.resolve('.')
+];
 
 const MIME_TYPES = {
   '.html': 'text/html; charset=UTF-8',
@@ -29,13 +36,37 @@ const COMPRESSIBLE = new Set([
   'image/svg+xml'
 ]);
 
-// Memory cache for small frequently accessed files
-const memoryCache = new Map();
-const MAX_CACHE_SIZE = 100 * 1024; // 100 KB max per file
+function findFile(cleanUrl, req) {
+  for (const root of candidateRoots) {
+    let filePath = path.join(root, cleanUrl === '/' ? 'index.html' : cleanUrl);
+
+    if (fs.existsSync(filePath) && fs.statSync(filePath).isDirectory()) {
+      filePath = path.join(filePath, 'index.html');
+    }
+    if (!fs.existsSync(filePath) && fs.existsSync(filePath + '.html')) {
+      filePath = filePath + '.html';
+    }
+
+    // Smart WebP negotiation
+    const acceptHeader = (req && req.headers && req.headers.accept) || '';
+    if (acceptHeader.includes('image/webp') && /\.(jpe?g)$/i.test(filePath)) {
+      const webpCandidate = filePath.replace(/\.(jpe?g)$/i, '.webp');
+      if (fs.existsSync(webpCandidate)) {
+        filePath = webpCandidate;
+      }
+    }
+
+    if (fs.existsSync(filePath) && fs.statSync(filePath).isFile()) {
+      return filePath;
+    }
+  }
+  return null;
+}
 
 const server = http.createServer((req, res) => {
   let cleanUrl = req.url.split('?')[0].split('#')[0];
-  // Support /torqclub subpath for testing GitHub Pages locally
+
+  // Support /torqclub subpath if hosted in subdirectory
   if (cleanUrl === '/torqclub') {
     res.writeHead(301, { 'Location': '/torqclub/' });
     res.end();
@@ -45,28 +76,17 @@ const server = http.createServer((req, res) => {
     cleanUrl = cleanUrl.slice('/torqclub'.length);
     if (!cleanUrl) cleanUrl = '/';
   }
-  let filePath = path.join(ROOT, cleanUrl === '/' ? 'index.html' : cleanUrl);
 
-  // If directory, serve directory/index.html
-  if (fs.existsSync(filePath) && fs.statSync(filePath).isDirectory()) {
-    filePath = path.join(filePath, 'index.html');
-  }
+  const filePath = findFile(cleanUrl, req);
 
-  // If path doesn't have extension and file exists as .html
-  if (!fs.existsSync(filePath) && fs.existsSync(filePath + '.html')) {
-    filePath = filePath + '.html';
-  }
-
-  // Smart WebP negotiation: if client supports webp and request is for .jpg/.jpeg, check for .webp
-  const acceptHeader = req.headers.accept || '';
-  if (acceptHeader.includes('image/webp') && /\.(jpe?g)$/i.test(filePath)) {
-    const webpCandidate = filePath.replace(/\.(jpe?g)$/i, '.webp');
-    if (fs.existsSync(webpCandidate)) {
-      filePath = webpCandidate;
+  if (!filePath) {
+    // If not found, try 404.html
+    const notFoundFile = findFile('404.html', req);
+    if (notFoundFile) {
+      res.writeHead(404, { 'Content-Type': 'text/html; charset=UTF-8' });
+      fs.createReadStream(notFoundFile).pipe(res);
+      return;
     }
-  }
-
-  if (!fs.existsSync(filePath) || !fs.statSync(filePath).isFile()) {
     res.writeHead(404, { 'Content-Type': 'text/html; charset=UTF-8' });
     res.end('<h1>404 Not Found</h1><p>TORQ CLUB — Page not found.</p>');
     return;
@@ -76,7 +96,6 @@ const server = http.createServer((req, res) => {
   const ext = path.extname(filePath).toLowerCase();
   const mimeType = MIME_TYPES[ext] || 'application/octet-stream';
 
-  // Generate ETag from mtime and size
   const etag = `W/"${stat.size.toString(16)}-${stat.mtimeMs.toString(16)}"`;
   if (req.headers['if-none-match'] === etag) {
     res.writeHead(304, {
@@ -87,7 +106,6 @@ const server = http.createServer((req, res) => {
     return;
   }
 
-  // Headers
   const headers = {
     'Content-Type': mimeType,
     'ETag': etag,
@@ -95,14 +113,12 @@ const server = http.createServer((req, res) => {
     'Vary': 'Accept-Encoding, Accept'
   };
 
-  // Caching policy: aggressive for static assets, moderate for HTML
   if (ext === '.html') {
     headers['Cache-Control'] = 'public, max-age=600, stale-while-revalidate=86400';
   } else {
     headers['Cache-Control'] = 'public, max-age=31536000, immutable';
   }
 
-  // Compression check for compressible text/code
   const isCompressible = COMPRESSIBLE.has(mimeType);
   const acceptEncoding = req.headers['accept-encoding'] || '';
 
@@ -129,14 +145,17 @@ const server = http.createServer((req, res) => {
       });
     }
   } else {
-    // Binary/image streaming
     headers['Content-Length'] = stat.size;
     res.writeHead(200, headers);
     fs.createReadStream(filePath).pipe(res);
   }
 });
 
-server.listen(PORT, () => {
-  console.log(`⚡ High-Performance TORQ CLUB server running at http://localhost:${PORT}`);
-  console.log(`🚀 Gzip streaming enabled | WebP auto-negotiation enabled | Immutable caching active`);
-});
+// Export server for serverless runtimes (Vercel)
+module.exports = server;
+
+if (require.main === module) {
+  server.listen(PORT, () => {
+    console.log(`⚡ High-Performance TORQ CLUB server running at http://localhost:${PORT}`);
+  });
+}
