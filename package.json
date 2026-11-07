@@ -1,0 +1,13 @@
+{
+  "name": "torqclub-fitness",
+  "version": "1.0.0",
+  "description": "TORQ CLUB Fitness - Hyderabad's Biggest Warehouse Gym (Kukatpally)",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "sharp": "^0.33.5"
+  }
+}
+
