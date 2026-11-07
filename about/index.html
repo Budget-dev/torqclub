@@ -4,65 +4,15 @@
 <html lang="en" data-redirect-timezone="1" dir="ltr">
 <head>
 
-<script id="torq-subpath-interceptor">
-  (function() {
-    var p = window.location.pathname;
-    var base = '';
-    if (window.location.hostname.endsWith('github.io')) {
-      var repo = p.split('/')[1];
-      if (repo) base = '/' + repo;
-    } else if (p.startsWith('/torqclub')) {
-      base = '/torqclub';
-    }
-    window.__TORQ_BASE__ = base;
-
-    if (base) {
-      function fixUrl(u) {
-        if (typeof u === 'string') {
-          if (u.startsWith('../images/') || u.startsWith('../assets/') || u.startsWith('../js/')) {
-            return base + u;
-          }
-        }
-        return u;
-      }
-      function fixSrcset(s) {
-        if (typeof s === 'string') {
-          return s.replace(/(^|,s*)(/(?:images|assets|js)/)/g, '$1' + base + '$2');
-        }
-        return s;
-      }
-
-      var srcDesc = Object.getOwnPropertyDescriptor(HTMLImageElement.prototype, 'src');
-      if (srcDesc && srcDesc.set) {
-        Object.defineProperty(HTMLImageElement.prototype, 'src', {
-          get: function() { return srcDesc.get.call(this); },
-          set: function(val) { return srcDesc.set.call(this, fixUrl(val)); },
-          configurable: true
-        });
-      }
-      var srcsetDesc = Object.getOwnPropertyDescriptor(HTMLImageElement.prototype, 'srcset');
-      if (srcsetDesc && srcsetDesc.set) {
-        Object.defineProperty(HTMLImageElement.prototype, 'srcset', {
-          get: function() { return srcsetDesc.get.call(this); },
-          set: function(val) { return srcsetDesc.set.call(this, fixSrcset(val)); },
-          configurable: true
-        });
-      }
-
-      var origSetAttr = Element.prototype.setAttribute;
-      Element.prototype.setAttribute = function(name, val) {
-        if (name === 'src' || name === 'href') {
-          val = fixUrl(val);
-        } else if (name === 'srcset') {
-          val = fixSrcset(val);
-        }
-        return origSetAttr.call(this, name, val);
-      };
-    }
-  })();
+<script>
+  // Ensure trailing slash on GitHub Pages directory
+  if (location.pathname.endsWith('/torqclub')) {
+    location.replace(location.pathname + '/' + location.search + location.hash);
+  }
 </script>
 
-	<meta charset="utf-8">
+
+<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width">
 	<meta name="generator" content="Framer fc3086c">
 	<title>TORQ CLUB — Hyderabad's Biggest Warehouse Gym | Kukatpally</title>
@@ -84,7 +34,7 @@
     <meta name="twitter:image" content="../images/torq-badge.png">
 	
 	
-	<script>try{if(localStorage.getItem("__framer_force_showing_editorbar_since")){const n=document.createElement("link");n.rel="modulepreload";n.href="https://framer.com/edit/init.mjs";document.head.appendChild(n)}}catch(e){}</script>
+	<script>try{if(localStorage.getItem("__framer_force_showing_editorbar_since")){const n=document.createElement("link");n.rel="modulepreload";n.href="https://framer.com/edit/init.js";document.head.appendChild(n)}}catch(e){}</script>
 	<script>((s,k,r)=>{let a=new Set,l=new Set,c=!1;function F(){c=!1;let e=[...l];l.clear();for(let n of e)n()}function w(e){l.add(e),!c&&(c=!0,requestAnimationFrame(F))}function D(){for(;a.size;){let e=a.values().next().value;a.delete(e),e()}}let M="scheduler"in s&&"postTask"in scheduler?e=>{scheduler.postTask(e,{priority:"background"})}:e=>setTimeout(e,1),P=new Promise(e=>{s.addEventListener("load",()=>{e()})}).then(()=>{P=void 0}),B="scheduling"in navigator&&typeof navigator.scheduling?.isInputPending=="function"?navigator.scheduling.isInputPending.bind(navigator.scheduling):()=>!1;async function j(e,n){a.add(e);let t;if(n&&r.readyState!=="complete"&&await P,!a.has(e))return;if(r.hidden){a.delete(e),e();return}let i=()=>{M(()=>{a.delete(e)&&e()})};w(()=>{B()?w(i):i()})}function f(e,n=!1){if(r.hidden){e();return}j(e,n)}let p,g;async function U(){return new Promise(e=>{let n=()=>{a.delete(e),e()};g=n,setTimeout(n,150),a.add(e)})}function A(e){e.button===0&&(p=U())}function v(){p=void 0,g?.(),g=void 0}r.addEventListener("mousedown",A,!0),r.addEventListener("click",v,!0),r.addEventListener("visibilitychange",()=>{r.hidden&&(D(),v())},!0),r.addEventListener("pagehide",()=>{v(),D()},!0);let S=r.addEventListener,T=r.removeEventListener,C=["click","auxclick","mousedown","keyup","submit"];function I(e,n){let t=[],i=[],o;for(o in e){if(typeof e[o]=="function")continue;let u=n[o];u===void 0?i.push(o):e[o]!==u&&t.push(o)}(t.length||i.length)&&console.log(`Different: ${t.join(", ")}`,`Missing: ${i.join(", ")}`)}let m=new WeakMap;function W(e){let n=m.get(e);if(n)return n;let t=async function(o){let u;o.type==="mousedown"&&o.button===0&&await p,f(()=>{typeof e=="function"?e.call(this,o):e.handleEvent(o)})};return m.set(e,t),t}r.addEventListener=function(e,n,t){if(n&&C.includes(e)){S.call(this,e,W(n),t);return}S.call(this,e,n,t)},r.removeEventListener=function(e,n,t){T.call(this,e,n,t);let i=n&&m.get(n);i&&T.call(this,e,i,t)};function _(e){return function(...t){return f(()=>{e.apply(this,t)},!0),!0}}function G(e){if(e.__f)return;let n=e.push;Object.defineProperty(e,"push",{enumerable:!0,get(){return n},set(t){t!==n&&(n=t?_(t):void 0)}}),Object.defineProperty(e,"__f",{enumerable:!1,value:!0})}function V(){let e=s.dataLayer;e&&(G(e),Object.defineProperty(s,"dataLayer",{enumerable:!0,get(){return e},set(n){n!==e&&(e=n,e&&G(e))}}))}let y=new MutationObserver(()=>{if(r.readyState==="complete"&&!("dataLayer"in s)){y.disconnect();return}"dataLayer"in s&&(y.disconnect(),V())});y.observe(r.documentElement,{childList:!0,subtree:!0});function L(e,n){let t=e.__proto__[n]??e[n],i,o=0;function u(d){let E=o++;function x(...O){(i===void 0||E>=i)&&t.apply(this,O),d&&f(()=>{let b=i;i=b===void 0?E:Math.max(b,E);try{d.apply(this,O)}finally{i=b}})}return x}let h=u();Object.defineProperty(e,n,{enumerable:!0,get(){return h},set(d){d!==h&&(h=d?u(d):void 0)}})}L(k,"pushState"),L(k,"replaceState"),L(HTMLFormElement.prototype,"submit")})(window,window.history,document);
 </script>
 	<!-- Start of headStart -->
@@ -369,7 +319,7 @@
 </head>
 <body>
 
-<script async src="../assets/script" data-fid="34a351aceb360120dc19a1b47dae3a45073fb01cd97e0846fa0689dc078a1f2f" data-no-nt></script>
+<script>window.__framer_events=window.__framer_events||[];window.__framer_events.push=function(){return -1};window.__send_framer_event=function(){};</script>
 	<!-- Start of bodyStart -->
     
     <!-- End of bodyStart -->
@@ -384,7 +334,7 @@
                 <script type="framer/appear" id="__framer__appearAnimationsContent">{"10u3gmp":{"default":{"initial":{"opacity":0.001,"rotate":0,"rotateX":0,"rotateY":0,"scale":1,"skewX":0,"skewY":0,"x":0,"y":12},"animate":{"opacity":1,"rotate":0,"rotateX":0,"rotateY":0,"scale":1,"skewX":0,"skewY":0,"transition":{"delay":0,"duration":0.8,"ease":[0.22,1,0.36,1],"type":"tween"},"x":0,"y":0}}},"9e46i1":{"default":{"initial":{"opacity":0.001,"rotate":0,"rotateX":0,"rotateY":0,"scale":1,"skewX":0,"skewY":0,"x":0,"y":18},"animate":{"opacity":1,"rotate":0,"rotateX":0,"rotateY":0,"scale":1,"skewX":0,"skewY":0,"transition":{"delay":0.3,"duration":1,"ease":[0.22,1,0.36,1],"type":"tween"},"x":0,"y":0}}},"5vja3u":{"default":{"initial":{"opacity":0.001,"rotate":0,"rotateX":0,"rotateY":0,"scale":1,"skewX":0,"skewY":0,"x":0,"y":18},"animate":{"opacity":1,"rotate":0,"rotateX":0,"rotateY":0,"scale":1,"skewX":0,"skewY":0,"transition":{"delay":0.45,"duration":1,"ease":[0.22,1,0.36,1],"type":"tween"},"x":0,"y":0}}}}</script>
                 <script type="framer/appear" id="__framer__breakpoints">[{"hash":"u2u4yw","mediaQuery":"(min-width: 1200px)"},{"hash":"wej5dp","mediaQuery":"(min-width: 810px) and (max-width: 1199.98px)"},{"hash":"kwhoba","mediaQuery":"(max-width: 809.98px)"},{"hash":"dq6nti","mediaQuery":"(max-width: 809.98px)"},{"hash":"1r0b2wi","mediaQuery":"(min-width: 810px) and (max-width: 1199.98px)"},{"hash":"9e22if","mediaQuery":"(min-width: 1200px)"}]</script><script data-framer-appear-animation="no-preference">(()=>{function c(i,o,s){if(window.__framer_disable_appear_effects_optimization__||typeof animator>"u")return;let e={detail:{bg:document.hidden}};requestAnimationFrame(()=>{let a="framer-appear-start";performance.mark(a,e),animator.animateAppearEffects(JSON.parse(window.__framer__appearAnimationsContent.text),(m,p,d)=>{let t=document.querySelector(m);if(t)for(let[r,f]of Object.entries(p))animator.startOptimizedAppearAnimation(t,r,f,d[r])},i,o,s&&window.matchMedia("(prefers-reduced-motion:reduce)").matches===!0,animator.getActiveVariantHash(JSON.parse(window.__framer__breakpoints.text)));let n="framer-appear-end";performance.mark(n,e),performance.measure("framer-appear",{start:a,end:n,detail:e.detail})})}return c})()("data-framer-appear-id","__Appear_Animation_Transform__",false)</script>
 	<script>typeof document<"u"&&(window.process={...window.process,env:{...window.process?.env,NODE_ENV:"production"}});</script>
-	<link rel="modulepreload" fetchpriority="low" href="../js/rolldown-runtime.Dh6celcD.mjs"><link rel="modulepreload" fetchpriority="low" href="../js/react.iNMCLRE-.mjs"><link rel="modulepreload" fetchpriority="low" href="../js/motion.D-WPsy_p.mjs"><link rel="modulepreload" fetchpriority="low" href="../js/framer.Bwu1tLvg.mjs"><link rel="modulepreload" fetchpriority="low" href="../js/shared-lib.DIKxNmoH.mjs"><link rel="modulepreload" fetchpriority="low" href="../js/alOY5mFrn.D8mNaXOS.mjs"><link rel="modulepreload" fetchpriority="low" href="../js/wKX2fel5U.BWRs4J_G.mjs"><link rel="modulepreload" fetchpriority="low" href="../js/Motion.DNG7E4M4.mjs"><link rel="modulepreload" fetchpriority="low" href="../js/fDgr0yW3U.BvrGMzs3.mjs"><link rel="modulepreload" fetchpriority="low" href="../js/yx6n0Ozhy.UosDJS8d.mjs"><link rel="modulepreload" fetchpriority="low" href="../js/zguSEH6Wn.DDK3hV2W.mjs"><link rel="modulepreload" fetchpriority="low" href="../js/4G9xX7Wo436UTJOvJqaT7iup-DN8wR4K7Kibyou1weE.vny63K47.mjs"><link rel="modulepreload" fetchpriority="low" href="../js/lirpF6svZ.DwcWUwux.mjs"><link rel="modulepreload" fetchpriority="low" href="../js/Oku9xEEzj.DVh3KeER.mjs"><link rel="modulepreload" fetchpriority="low" href="../js/r70q9bR6B.BjBW2vrf.mjs"><link rel="modulepreload" fetchpriority="low" href="../js/Ring.DTi-csmk.mjs"><link rel="modulepreload" fetchpriority="low" href="../js/Z_OnAthu2.Jzpfgf9d.mjs"><link rel="modulepreload" fetchpriority="low" href="../js/rXHCePIVl.BhfCXWCs.mjs"><link rel="modulepreload" fetchpriority="low" href="../js/Q_7lT840Q.JdRJd6Rx.mjs"><link rel="modulepreload" fetchpriority="low" href="../js/GPb2aaE7V9G9N76N8256BUx1FrAuNkeXWow-_aCE-a8.sOpCeejF.mjs"><script type="module" async data-framer-bundle="main" fetchpriority="low" src="../js/script_main.cASNMVTg.mjs"></script><div id="svg-templates" style="position: absolute; overflow: hidden; bottom: 0; left: 0; width: 0; height: 0; z-index: 0; contain: strict" aria-hidden="true">
+	<link rel="modulepreload" fetchpriority="low" href="../js/rolldown-runtime.Dh6celcD.js"><link rel="modulepreload" fetchpriority="low" href="../js/react.iNMCLRE-.js"><link rel="modulepreload" fetchpriority="low" href="../js/motion.D-WPsy_p.js"><link rel="modulepreload" fetchpriority="low" href="../js/framer.Bwu1tLvg.js"><link rel="modulepreload" fetchpriority="low" href="../js/shared-lib.DIKxNmoH.js"><link rel="modulepreload" fetchpriority="low" href="../js/alOY5mFrn.D8mNaXOS.js"><link rel="modulepreload" fetchpriority="low" href="../js/wKX2fel5U.BWRs4J_G.js"><link rel="modulepreload" fetchpriority="low" href="../js/Motion.DNG7E4M4.js"><link rel="modulepreload" fetchpriority="low" href="../js/fDgr0yW3U.BvrGMzs3.js"><link rel="modulepreload" fetchpriority="low" href="../js/yx6n0Ozhy.UosDJS8d.js"><link rel="modulepreload" fetchpriority="low" href="../js/zguSEH6Wn.DDK3hV2W.js"><link rel="modulepreload" fetchpriority="low" href="../js/4G9xX7Wo436UTJOvJqaT7iup-DN8wR4K7Kibyou1weE.vny63K47.js"><link rel="modulepreload" fetchpriority="low" href="../js/lirpF6svZ.DwcWUwux.js"><link rel="modulepreload" fetchpriority="low" href="../js/Oku9xEEzj.DVh3KeER.js"><link rel="modulepreload" fetchpriority="low" href="../js/r70q9bR6B.BjBW2vrf.js"><link rel="modulepreload" fetchpriority="low" href="../js/Ring.DTi-csmk.js"><link rel="modulepreload" fetchpriority="low" href="../js/Z_OnAthu2.Jzpfgf9d.js"><link rel="modulepreload" fetchpriority="low" href="../js/rXHCePIVl.BhfCXWCs.js"><link rel="modulepreload" fetchpriority="low" href="../js/Q_7lT840Q.JdRJd6Rx.js"><link rel="modulepreload" fetchpriority="low" href="../js/GPb2aaE7V9G9N76N8256BUx1FrAuNkeXWow-_aCE-a8.sOpCeejF.js"><script type="module" async data-framer-bundle="main" fetchpriority="low" src="../js/script_main.cASNMVTg.js"></script><div id="svg-templates" style="position: absolute; overflow: hidden; bottom: 0; left: 0; width: 0; height: 0; z-index: 0; contain: strict" aria-hidden="true">
 <svg id="942143898" display="block" role="presentation" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M 13.5 0 L 4.5 0 C 2.015 0 0 2.015 0 4.5 L 0 13.5 C 0 15.985 2.015 18 4.5 18 L 13.5 18 C 15.985 18 18 15.985 18 13.5 L 18 4.5 C 18 2.015 15.985 0 13.5 0 Z M 9 12.75 C 6.929 12.75 5.25 11.071 5.25 9 C 5.25 6.929 6.929 5.25 9 5.25 C 11.071 5.25 12.75 6.929 12.75 9 C 12.75 11.071 11.071 12.75 9 12.75 Z" fill-opacity="var(--1m6trwb, 0)" fill="var(--21h8s6, rgb(0, 0, 0))" height="18px" id="SuXKGhab5" transform="translate(3 3)" width="18px"/><path d="M 4.5 18 C 2.015 18 0 15.985 0 13.5 L 0 4.5 C 0 2.015 2.015 0 4.5 0 L 13.5 0 C 15.985 0 18 2.015 18 4.5 L 18 13.5 C 18 15.985 15.985 18 13.5 18 Z" fill="transparent" height="18px" id="vvJ8FLDVj" stroke-dasharray="" stroke-linecap="round" stroke-linejoin="round" stroke-width="var(--pgex8v, 1.5)" stroke="var(--21h8s6, rgb(0, 0, 0))" transform="translate(3 3)" width="18px"/><path d="M 0 3.75 C 0 1.679 1.679 0 3.75 0 C 5.821 0 7.5 1.679 7.5 3.75 C 7.5 5.821 5.821 7.5 3.75 7.5 C 1.679 7.5 0 5.821 0 3.75 Z" fill="transparent" height="7.5px" id="Q3v7fjWhv" stroke-dasharray="" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-width="var(--pgex8v, 1.5)" stroke="var(--21h8s6, rgb(0, 0, 0))" transform="translate(8.25 8.25)" width="7.5px"/><path d="M 0 1.125 C 0 0.504 0.504 0 1.125 0 C 1.746 0 2.25 0.504 2.25 1.125 C 2.25 1.746 1.746 2.25 1.125 2.25 C 0.504 2.25 0 1.746 0 1.125 Z" fill="var(--21h8s6, rgb(0, 0, 0))" height="2.25px" id="VxeO4Hprj" transform="translate(15.75 6)" width="2.25px"/></svg>
 <svg id="1426455308" display="block" role="presentation" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M 0 9 C 0 4.029 4.029 0 9 0 C 13.971 0 18 4.029 18 9 C 18 13.971 13.971 18 9 18 C 4.029 18 0 13.971 0 9 Z" fill-opacity="var(--1m6trwb, 0)" fill="var(--21h8s6, rgb(0, 0, 0))" height="18px" id="toDPs7Y9O" transform="translate(3 3)" width="18px"/><path d="M 0 9 C 0 4.029 4.029 0 9 0 C 13.971 0 18 4.029 18 9 C 18 13.971 13.971 18 9 18 C 4.029 18 0 13.971 0 9 Z" fill="transparent" height="18px" id="nB8qhy58t" stroke-dasharray="" stroke-linecap="round" stroke-linejoin="round" stroke-width="var(--pgex8v, 1.5)" stroke="var(--21h8s6, rgb(0, 0, 0))" transform="translate(3 3)" width="18px"/><path d="M 3.75 0 L 2.25 0 C 1.007 0 0 1.007 0 2.25 L 0 12.75" fill="transparent" height="12.75px" id="QFOnXWoYe" stroke-dasharray="" stroke-linecap="round" stroke-linejoin="round" stroke-width="var(--pgex8v, 1.5)" stroke="var(--21h8s6, rgb(0, 0, 0))" transform="translate(12 8.25)" width="3.75px"/><path d="M 0 0 L 6 0" fill="transparent" height="1px" id="rOK6Xhani" stroke-dasharray="" stroke-linecap="round" stroke-linejoin="round" stroke-width="var(--pgex8v, 1.5)" stroke="var(--21h8s6, rgb(0, 0, 0))" transform="translate(9 13.5)" width="6px"/></svg>
 <svg id="3761207643" display="block" role="presentation" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M 18.993 2.206 C 18.876 1.737 18.54 1.353 18.09 1.175 C 14.951 -0.033 9.75 0 9.75 0 C 9.75 0 4.549 -0.033 1.406 1.179 C 0.957 1.358 0.621 1.742 0.503 2.211 C 0.288 3.051 0 4.696 0 7.5 C 0 10.304 0.288 11.949 0.507 12.794 C 0.625 13.261 0.959 13.643 1.406 13.821 C 4.549 15.033 9.75 15 9.75 15 C 9.75 15 14.951 15.033 18.094 13.821 C 18.542 13.644 18.878 13.262 18.997 12.794 C 19.216 11.95 19.504 10.304 19.504 7.5 C 19.504 4.696 19.212 3.051 18.993 2.206 Z M 8.25 10.5 L 8.25 4.5 L 12.75 7.5 Z" fill-opacity="var(--1m6trwb, 0)" fill="var(--21h8s6, rgb(0, 0, 0))" height="15.000173729153522px" id="Kxf_tc1rc" transform="translate(2.25 4.5)" width="19.503749999999997px"/><path d="M 4.5 3 L 0 0 L 0 6 Z" fill="transparent" height="6px" id="OiQVq1BcP" stroke-dasharray="" stroke-linecap="round" stroke-linejoin="round" stroke-width="var(--pgex8v, 1.5)" stroke="var(--21h8s6, rgb(0, 0, 0))" transform="translate(10.5 9)" width="4.5px"/><path d="M 0 7.5 C 0 10.304 0.288 11.949 0.507 12.794 C 0.625 13.261 0.959 13.643 1.406 13.821 C 4.549 15.033 9.75 15 9.75 15 C 9.75 15 14.951 15.033 18.094 13.821 C 18.542 13.644 18.878 13.262 18.997 12.794 C 19.216 11.95 19.504 10.304 19.504 7.5 C 19.504 4.696 19.216 3.052 18.997 2.206 C 18.879 1.737 18.543 1.353 18.094 1.175 C 14.951 -0.033 9.75 0 9.75 0 C 9.75 0 4.549 -0.033 1.406 1.179 C 0.957 1.358 0.621 1.742 0.503 2.211 C 0.288 3.051 0 4.696 0 7.5 Z" fill="transparent" height="15.000173729153499px" id="f0uv60ll0" stroke-dasharray="" stroke-linecap="round" stroke-linejoin="round" stroke-width="var(--pgex8v, 1.5)" stroke="var(--21h8s6, rgb(0, 0, 0))" transform="translate(2.25 4.5)" width="19.503749999999997px"/></svg>

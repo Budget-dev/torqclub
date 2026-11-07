@@ -1,0 +1,2 @@
+import{t as e}from"./rolldown-runtime.Dh6celcD.js";function t(e,t){return{description:`Hyderabad's premier warehouse fitness powerhouse. TORQ CLUB is where discipline meets strength — heavy lifting, turf conditioning, and relentless community in Kukatpally.`,favicon:`/images/torq-badge.png`,robots:`max-image-preview:large`,socialImage:`/images/torq-badge.png`,title:`TORQ CLUB — Hyderabad's Biggest Warehouse Gym | Kukatpally`}}var n=e((()=>{}));export{t as n,n as t};
+//# sourceMappingURL=siteMetadata.16-znc9I.mjs.map
