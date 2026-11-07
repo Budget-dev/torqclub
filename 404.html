@@ -200,62 +200,17 @@
     <link rel="prefetch" href="./journal">
 
 
-<style id="torq-performance-smoothness">
-  /* Ultra-smooth scrolling and rendering optimizations */
-  html {
-    scroll-behavior: smooth !important;
-    -webkit-font-smoothing: antialiased !important;
-    -moz-osx-font-smoothing: grayscale !important;
-    text-rendering: optimizeLegibility !important;
-  }
-  body {
-    overflow-x: hidden !important;
-    overscroll-behavior-y: none !important;
-  }
-  * {
-    -webkit-overflow-scrolling: touch !important;
-  }
-  /* Hardware-accelerated smooth layer compositing */
-  .framer-yy6yes, [data-framer-name="Navigation"], .framer-owHFs, .framer-mf4aba {
-    will-change: transform !important;
-    transform: translateZ(0) !important;
-    -webkit-transform: translateZ(0) !important;
-    backface-visibility: hidden !important;
-  }
-  /* Content-visibility: render offscreen sections only when approaching viewport */
-  [data-framer-name="FAQ"],
-  [data-framer-name="Stories"],
-  [data-framer-name="Journal"],
-  [data-framer-name="Footer"],
-  [data-framer-name="Clubs"] {
-    content-visibility: auto;
-    contain-intrinsic-size: 1px 700px;
-  }
-  /* Snappy interaction response without mobile 300ms delay */
-  a, button, [role="button"], input {
-    touch-action: manipulation !important;
-  }
-  /* Fluid interactive transitions */
-  a, button {
-    transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease !important;
-  }
-  a:active, button:active {
-    transform: scale(0.975) !important;
-  }
-  /* Smooth image rendering */
-  img {
-    image-rendering: auto;
-  }
-</style>
-
-
-
 <style id="torq-mobile-responsive">
   /* Mobile Responsiveness & Overflow Prevention */
-  html, body {
-    max-width: 100vw !important;
-    overflow-x: hidden !important;
-    position: relative !important;
+  html {
+    max-width: 100vw;
+    overflow-x: hidden;
+  }
+  body {
+    max-width: 100vw;
+    overflow-x: hidden;
+    position: relative;
+    width: 100%;
   }
   #main, [data-layout-template="true"], .framer-mQddx {
     max-width: 100vw !important;
